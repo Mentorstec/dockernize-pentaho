@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+
+  postgres:
+    image: mentorstec/postgres:9
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes: 
+      - postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres_dw
+  
+  jenkins-pdi:
+    image: mentorstec/jenkins-pdi:9.0
+    depends_on:
+      - postgres
+    ports:
+      - "8081:8080"
+      - "50000:50000"
+    environment:   
+      - DW_SGBD=postgresql
+      - DW_HOST=postgres
+      - DW_USER=postgres
+      - DW_PASSWORD=postgres
+      - DW_PORT=5432
+      - DW_DB_NAME=postgres_dw
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - pdi_kettle:/opt/pentaho/.kettle
+
+volumes:
+  postgres:
+  jenkins_home:
+  pdi_kettle:

@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  jenkins-pdi:
+    image: mentorstec/jenkins-pdi:7.1
+    ports:
+      - "8081:8080"
+      - "50000:50000"
+    environment:
+      - PRJ=
+      - DW_SGBD=
+      - DW_HOST=
+      - DW_USER=
+      - DW_PASSWORD=
+      - DW_PORT=
+      - DW_DB_NAME=
+      - SOURCE_SGBD=
+      - SOURCE_HOST=
+      - SOURCE_USER=
+      - SOURCE_PASSWORD=
+      - SOURCE_PORT=
+      - SOURCE_DB_NAME=
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - pdi_kettle:/opt/pentaho/.kettle
+      - pentaho_server:/opt/pentaho/pentaho-server
+
+  pentaho-server:
+    image: mentorstec/pentaho-server:6.1.ssl
+    ports:
+       - "80:8080"
+       - "443:8443"
+    environment:
+      - DATABASE_CONFIG_HOST=mariadb-config
+    volumes:
+      - pentaho_server:/opt/pentaho/pentaho-server
+
+volumes:
+  jenkins_home:
+  pdi_kettle:
+  pentaho_server:

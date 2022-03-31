@@ -1,0 +1,53 @@
+version: "3"
+
+services:
+         
+  carte-pdi:
+    image: mentorstec/carte-pdi
+    ports:
+      - "9001:9001"
+    environment:
+      - CARTE_USERNAME=admin
+      - CARTE_PASSWORD=admin
+      
+      - PRJ=
+
+      - DW_SGBD=
+      - DW_HOST=172.18.0.1 # docker_gwbridge: 
+      - DW_USER=
+      - DW_PASSWORD=
+      - DW_PORT=
+      - DW_DB_NAME=
+
+      - STAGE_SGBD=
+      - STAGE_HOST=
+      - STAGE_USER=
+      - STAGE_PASSWORD=
+      - STAGE_PORT=
+      - STAGE_DB_NAME=
+
+      - SOURCE_SGBD=
+      - SOURCE_HOST=
+      - SOURCE_USER=
+      - SOURCE_PASSWORD=
+      - SOURCE_PORT=
+      - SOURCE_DB_NAME=
+
+      - SOURCE_2_SGBD=
+      - SOURCE_2_HOST=
+      - SOURCE_2_USER=
+      - SOURCE_2_PASSWORD=
+      - SOURCE_2_PORT=
+      - SOURCE_2_DB_NAME=
+    volumes:
+      - pdi_kettle:/opt/pentaho/.kettle
+      - etl_repos:/opt/pentaho/repos
+    networks: 
+      - webnet
+
+networks:
+  webnet:
+
+volumes:
+  pdi_kettle:
+  etl_repos:

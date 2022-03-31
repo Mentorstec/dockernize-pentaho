@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  carte-pdi:
+    image: mentorstec/carte-pdi
+    ports:
+      - "9001:9001"
+    environment:
+      - CARTE_USERNAME=
+      - CARTE_PASSWORD=
+      - PRJ=
+      - DW_SGBD=
+      - DW_HOST=
+      - DW_USER=
+      - DW_PASSWORD=
+      - DW_PORT=
+      - DW_DB_NAME=
+      - SOURCE_SGBD=
+      - SOURCE_HOST=
+      - SOURCE_USER=
+      - SOURCE_PASSWORD=
+      - SOURCE_PORT=
+      - SOURCE_DB_NAME=
+      - SOURCE_2_SGBD=
+      - SOURCE_2_HOST=
+      - SOURCE_2_USER=
+      - SOURCE_2_PASSWORD=
+      - SOURCE_2_PORT=
+      - SOURCE_2_DB_NAME=
+    volumes:
+      - pdi_kettle:/opt/pentaho/.kettle
+      - etl_repos:/opt/pentaho/repos
+
+  portainer:
+    image: portainer/portainer
+    command: -H unix:///var/run/docker.sock
+    restart: always
+    ports:
+      - 9000:9000
+      - 8000:8000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+volumes:
+  portainer_data:
+  pdi_kettle:
+  etl_repos:
